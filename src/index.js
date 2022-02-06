@@ -170,5 +170,3 @@ class Fields {
         return this;
     }
 }
-
-console.log( new Embed( ).title( 'asd' ).description( 'asd' ).url( 'http://..' ).color( 12 ).footer( 'Author', 'https://..' ).image( 'http://..' ).author( 'asd', null, 'http://..' ).addfield( 'yo', 'nah', true ).addfield( 'asd', 'E' ).wrap( ).buildJSON() )

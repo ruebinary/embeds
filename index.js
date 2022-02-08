@@ -1,4 +1,3 @@
-const is = require('@sindresorhus/is')
 function createEmbed( ) {
     let embed = {
         title: null,
@@ -59,7 +58,7 @@ function createEmbed( ) {
         addField( name, value, inline = false ) {
             if ( !name || name.length > 256 ) throw new Error( "Field name must be between 1 and 256 characters" )
             if ( !value || value.length > 1024) throw new Error( "Field value must be between 1 and 1024 characters" )
-            if ( inline && !is.boolean( inline ) ) throw new Error( "Field inline argument must be a valid boolean" )
+            if ( inline && typeof inline !== "boolean") throw new Error( "Field inline argument must be a valid boolean" )
             let newfield = { name: name, value: value, inline: inline }
             this.fields.push( newfield )
             return embed;
@@ -95,6 +94,7 @@ function isValidUrl( string ) {
 
     return url.protocol === "http:" || url.protocol === "https:";
 }
+console.log(createEmbed().addField('asd', 'ayyy'))
 module.exports = {
     createEmbed,
 }

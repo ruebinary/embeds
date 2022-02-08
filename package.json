@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/franceees/embedder.git"
+    "url": "git+https://github.com/ruebinary/embedder.git"
   },
   "keywords": [
     "discord"
@@ -18,9 +18,9 @@
   "author": "rue",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/franceees/embedder/issues"
+    "url": "https://github.com/ruebinary/embedder/issues"
   },
-  "homepage": "https://github.com/franceees/embedder#readme",
+  "homepage": "https://github.com/ruebinary/embedder#readme",
   "dependencies": {
     "@sindresorhus/is": "^4.4.0"
   }

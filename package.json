@@ -1,6 +1,6 @@
 {
-  "name": "discord_embedder",
-  "version": "1.0.0",
+  "name": "embeds",
+  "version": "0.0.1",
   "description": "builds discord embeds",
   "main": "./src/index.js",
   "bin": "./src/index.js",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/franceees/embedder/issues"
   },
-  "homepage": "https://github.com/franceees/embedder#readme"
+  "homepage": "https://github.com/franceees/embedder#readme",
+  "dependencies": {
+    "@sindresorhus/is": "^4.4.0"
+  }
 }

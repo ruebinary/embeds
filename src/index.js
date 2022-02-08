@@ -1,172 +1,100 @@
-class Embed {
-    fields = [ ]
-    constructor( ) {}
-    isValidUrl( str ) {
-        let url;
-        try { url = new URL( str ) } catch ( _ ) { return false }
-        return url.protocol === "http:" || url.protocol === "https:";
-    }
-    title( str ) {
-        if ( str.length <= 256 ) {
+import is from '@sindresorhus/is'
+function createEmbed( ) {
+    let embed = {
+        title: null,
+        description: null,
+        url: null,
+        color: null,
+        fields: [ ],
+        thumbnail: { url: null },
+        image: { url: null },
+        author: { name: null, url: null, icon_url: null },
+        footer: { text: null, icon_url: null },
+
+        addTitle( str ) {
+            if ( !str || str.length > 256 ) throw new Error( "Title string must be between 1 and 256 characters" )
             this.title = str
-        } else {
-            throw new Error( "Title string longer than 256" )
-        }
-        return this;
-    }
-    description( str ) {
-        if ( str.length <= 4096 ) {
+            return embed;
+        },
+        addDescription( str ) {
+            if ( !str || str.length > 4096) throw new Error( "Description string must be between 1 and 4096 characters" )
             this.description = str
-        } else {
-            throw new Error( "Description string longer than 4096" )
-        }
-        return this;
-    }
-    url( str ) {
-        if ( this.isValidUrl( str ) ) {
-            this.url = str
-        } else {
-            throw new Error( "Provided URL wasn't valid." );
-        }
-        return this;
-    }
-    color( int ) {
-        if ( typeof 10 === 'number' ) {
-            this.color = int
-        } else {
-            throw new Error( "Provided color wasn't integer" )
-        }
-        return this;
-    }
-    footer( text, url ) {
-        const footerObject = new Footer( text, url )
-        this.footer = footerObject
-        return this;
-    }
-    image( url ) {
-        const imageObject = new embedImage( url )
-        this.image = imageObject
-        return this;
-    }
-    author( name, url, icon_url ) {
-        const authorObject = new Author( name, url, icon_url )
-        this.author = authorObject
-        return this;
-    }
-    addfield( name, value, inline ) {
-        if ( this.fields.length < 25 ) {
-            if ( !inline || inline == null ) {
-                this.fields.push( new Fields( name, value ) )
-            } else if ( typeof inline !== 'boolean' ) {
-                throw new Error( "Inline argument of addfield must be boolean" )
-            } else if ( inline == true ) {
-                this.fields.push( new Fields( name, value, inline ) )
-            } else {
-                throw new Error( "Unhandled exception while building new field" )
-            }
-        } else {
-            throw new Error( "Amount of fields cannot exceed 25!" )
-        }
-        return this;
-    }
-    buildObject( ) {
-        return JSON.parse( JSON.stringify( this ) );
-    }
-    buildJSON( ) {
-        return JSON.stringify( this );
-    }
-}
-class Footer {
-    constructor( text, url ) {
-        if ( !text ) throw new Error( 'You must provide footer text' );
-        if ( text.length > 2048 ) throw new Error( 'Footer text must not exceed 2048 characters' );
-        if ( url == null ) {
-            if ( text.length <= 2048 ) {
-                this.text = text
-            } else {
-                throw new Error( 'Unhandled exception while building footer, please open issue at https://github.com/franceees/embedder/issues' )
-            }
-        } else if ( url ) {
-            if ( text.length <= 2048 && this.isValidUrl( url ) ) {
-                this.text = text
-                this.url = url
-            } else if ( !this.isValidUrl( url ) ) {
-                throw new Error( "Provided footer URL wasn't valid." );
-            } else {
-                throw new Error( 'Unhandled exception while building footer, please open issue at https://github.com/franceees/embedder/issues' )
-            }
-        }
-        return this;
-    }
-    isValidUrl( str ) {
-        let url;
-        try { url = new URL( str ) } catch ( _ ) { return false }
-        return url.protocol === "http:" || url.protocol === "https:";
-    }
-}
-class embedImage {
-    constructor( url ) {
-        if ( this.isValidUrl( url ) ) {
+            return embed;
+        },
+        addUrl( url ) {
+            if ( !url || !isValidUrl( url ) ) throw new Error( "Must provide valid URL" )
             this.url = url
-        } else if ( !this.isValidUrl( url ) ) {
-            throw new Error( "Provided image URL wasn't valid." );
-        } else {
-            throw new Error( "Unhandled exception while building image, please open issue at https://github.com/franceees/embedder/issues" )
+            return embed;
+        },
+        addColor( num ) {
+
+            return embed;
+        },
+        addThumbnail( url ) {
+            if ( !url || !isValidUrl( url ) ) throw new Error( "Must provide valid thumbnail URL" )
+            this.thumbnail.url = url
+            return embed;
+        },
+        addImage( url ) {
+            if ( !url || !isValidUrl( url ) ) throw new Error( "Must provide valid image URL" )
+            this.image.url = url
+            return embed;
+        },
+        addAuthor( name, url = null, icon_url = null ) {
+            if ( !name || name.length > 256 ) throw new Error( "Author name must be between 1 and 256 characters" )
+            if ( url && !isValidUrl( url ) ) throw new Error( "Must provide valid author URL" )
+            if ( icon_url && !isValidUrl( icon_url ) ) throw new Error( "Must provide valid author icon URL" )
+            this.author.name = name
+            this.author.url = url
+            this.author.icon_url = icon_url
+            return embed;
+        },
+        addFooter( text, icon_url = null ) {
+            if ( !text || text.length > 2048 ) throw new Error( "Footer text must be between 1 and 2048 characters" )
+            if ( icon_url && !isValidUrl( icon_url ) ) throw new Error( "Must provide valid footer icon URL" )
+            this.footer.text = text
+            this.footer.icon_url = icon_url
+            return embed;
+        },
+        addField( name, value, inline = false ) {
+            if ( !name || name.length > 256 ) throw new Error( "Field name must be between 1 and 256 characters" )
+            if ( !value || value.length > 1024) throw new Error( "Field value must be between 1 and 1024 characters" )
+            if ( inline && !is.boolean( inline ) ) throw new Error( "Field inline argument must be a valid boolean" )
+            let newfield = { name: name, value: value, inline: inline }
+            this.fields.push( newfield )
+            return embed;
+        },
+        jsonify( ) {
+            return JSON.stringify( embed )
+        },
+        buildObject( ) {
+            let exportable = {
+                embeds: [ ]
+            }
+            exportable.embeds.push( embed )
+            return exportable;
+        },
+        buildJson( ) {
+            let exportable = {
+                embeds: [ ]
+            }
+            exportable.embeds.push( embed )
+            return JSON.stringify( exportable )
         }
-        return this;
     }
-    isValidUrl( str ) {
-        let url;
-        try { url = new URL( str ) } catch ( _ ) { return false }
-        return url.protocol === "http:" || url.protocol === "https:";
-    }
+    return embed;
 }
-class Author {
-    constructor( str, url, icon_url ) {
-        if ( str.length <= 256 && this.isValidUrl( url ) && this.isValidUrl( icon_url ) ) {
-            this.name = str
-            this.url = url
-            this.icon_url = icon_url
-        } else if ( str.length <= 256 && !icon_url || !url ) {
-            this.name = str
-            this.url = !url ? null : url
-            this.icon_url = !icon_url ? null : icon_url
-        } else if ( !str ) {
-            throw new Error( "Author text must be provided" )
-        } else if ( !this.isValidUrl( url ) || !this.isValidUrl( icon_url ) ) {
-            throw new Error( "An author URL wasn't valid." );
-        } else if ( text.length > 256 ) {
-            throw new Error( "Author text longer than 256" )
-        } else {
-            throw new Error( "Unhandled exception while building author, please open issue at https://github.com/franceees/embedder/issues" )
-        }
-        return this;
+function isValidUrl( string ) {
+    let url;
+
+    try {
+        url = new URL( string );
+    } catch ( _ ) {
+        return false;
     }
-    isValidUrl( str ) {
-        let url;
-        try { url = new URL( str ) } catch ( _ ) { return false }
-        return url.protocol === "http:" || url.protocol === "https:";
-    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
 }
-class Fields {
-    constructor( name, value, inline ) {
-        if ( !name || !value ) {
-            throw new Error( "You need to specify a name AND a value for a field" )
-        }
-        if ( name.length > 256 ) {
-            throw new Error( "Field name cannot exceed 256 characters!" )
-        } else if ( value.length > 1024 ) {
-            throw new Error( "Field value cannot exceed 1024 characters!" )
-        } else if ( !inline || typeof inline != "boolean" ) {
-            this.name = name
-            this.value = value
-        } else if ( inline && typeof inline == "boolean" ) {
-            this.name = name
-            this.value = value
-            this.inline = inline
-        } else {
-            throw new Error( "Unhandled exception while building field, please open issue at https://github.com/franceees/embedder/issues" )
-        }
-        return this;
-    }
+export default {
+    createEmbed
 }

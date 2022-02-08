@@ -1,4 +1,4 @@
-import is from '@sindresorhus/is'
+const is = require('@sindresorhus/is')
 function createEmbed( ) {
     let embed = {
         title: null,
@@ -95,6 +95,6 @@ function isValidUrl( string ) {
 
     return url.protocol === "http:" || url.protocol === "https:";
 }
-export default {
-    createEmbed
+module.exports = {
+    createEmbed,
 }

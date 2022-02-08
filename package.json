@@ -1,10 +1,9 @@
 {
-  "name": "embeds",
-  "version": "0.0.1",
+  "name": "@ruebinary/embeds",
+  "version": "0.1.1",
   "description": "builds discord embeds",
   "main": "./src/index.js",
   "bin": "./src/index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +14,7 @@
   "keywords": [
     "discord"
   ],
-  "author": "rue",
+  "author": "Rue",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/ruebinary/embedder/issues"
@@ -23,5 +22,8 @@
   "homepage": "https://github.com/ruebinary/embedder#readme",
   "dependencies": {
     "@sindresorhus/is": "^4.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

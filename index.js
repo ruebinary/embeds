@@ -94,7 +94,6 @@ function isValidUrl( string ) {
 
     return url.protocol === "http:" || url.protocol === "https:";
 }
-console.log(createEmbed().addField('asd', 'ayyy'))
 module.exports = {
     createEmbed,
 }

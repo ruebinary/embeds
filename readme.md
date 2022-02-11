@@ -74,4 +74,5 @@ console.log(myembed)
 
 - [ ] Finish readme
 
-copyright (c) ruebinary 2022 under gnu gpl v3 license
+copyright (c) ruebinary 2022 
+*embeds* is released under isc license

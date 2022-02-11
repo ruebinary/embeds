@@ -1,6 +1,6 @@
 {
   "name": "@ruebinary/embeds",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "builds discord embeds",
   "main": "index.js",
   "bin": "index.js",
@@ -15,7 +15,7 @@
     "discord"
   ],
   "author": "Rue",
-  "license": "GPL-3.0",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ruebinary/embeds/issues"
   },

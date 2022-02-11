@@ -70,7 +70,7 @@ function createEmbed( ) {
             let exportable = {
                 embeds: [ ]
             }
-            exportable.embeds.push( embed )
+            exportable.embeds.push( JSON.parse(JSON.stringify(embed)) )
             return exportable;
         },
         buildJson( ) {

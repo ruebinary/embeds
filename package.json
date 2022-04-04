@@ -1,7 +1,8 @@
 {
   "name": "@ruebinary/embeds",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "builds discord embeds",
+  "type": "module",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
